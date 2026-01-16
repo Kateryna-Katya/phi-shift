@@ -1,56 +1,387 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/phi-shift/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHI SHIFT | IT-Школа нового поколения</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script type="module" crossorigin src="/phi-shift/index.js"></script>
-    <link rel="stylesheet" crossorigin href="/phi-shift/assets/styles-guStct1H.css">
+    <link rel="stylesheet" crossorigin href="/phi-shift/assets/styles-DnbBc0pU.css">
   </head>
   <body>
-    <header class="header">
-  <div class="container">
-    <nav class="nav">
-      <a class="nav-logo" href="./index.html" aria-label="Site logo">
-        <svg class="nav-logo-icon" width="100" height="30">
-          <use href="{=$icon-path}"></use>
-        </svg>
-      </a>
-      <ul class="nav-list">
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-act}" href="./page-2.html">Page 2</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {=$highlight-curr}" href="./page-3.html">Page 3</a>
-        </li>
+    <header class="header" id="header">
+  <div class="container header__container">
+    <a href="/" class="logo">
+      <span class="logo__dot"></span>
+      PHI SHIFT
+    </a>
+
+    <nav class="nav" id="nav">
+      <ul class="nav__list">
+        <li><a href="#hero" class="nav__link">Главная</a></li>
+        <li><a href="#platform" class="nav__link">Обучение</a></li>
+        <li><a href="#benefits" class="nav__link">Преимущества</a></li>
+        <li><a href="#innovations" class="nav__link">Инновации</a></li>
+        <li><a href="#blog" class="nav__link">Блог</a></li>
       </ul>
     </nav>
+
+    <div class="header__actions">
+      <a href="#contact" class="btn btn--outline">Связаться</a>
+      <button class="burger" id="burger" aria-label="Menu">
+        <span></span>
+      </button>
+    </div>
   </div>
 </header>
 
-
     <main>
       <!-- Loads the specified .html file -->
-      
+      <section class="hero" id="hero">
+    <canvas class="hero__canvas" id="heroCanvas"></canvas>
+    <div class="hero__overlay"></div>
+
+    <div class="container hero__container">
+        <div class="hero__content">
+            <div class="hero__label-wrapper js-hero-anim">
+                <span class="hero__label">
+                    <i data-lucide="sparkles"></i>
+                    Технология нового поколения
+                </span>
+            </div>
+
+            <h1 class="hero__title js-split-text">
+                PHI SHIFT: Передовая цифровая инфраструктура
+            </h1>
+
+            <p class="hero__subtitle js-split-text">
+                Воплотите мечты в реальность. Стратегия роста на базе инноваций, которая меняет правила игры. Платформа
+                уже доступна в Европе.
+            </p>
+
+            <div class="hero__actions js-hero-anim">
+                <a href="#contact" class="btn btn--primary">
+                    Начать сейчас
+                    <i data-lucide="arrow-right" class="btn-icon"></i>
+                </a>
+                <a href="#platform" class="btn btn--outline">Узнать детали</a>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="platform" id="platform">
+    <div class="container">
+        <div class="platform__header">
+            <h2 class="section-title js-reveal">Переосмыслите подход к развитию</h2>
+            <p class="section-subtitle js-reveal">
+                PHI SHIFT — это инновационная технология обучения, объединяющая передовую цифровую инфраструктуру и
+                AI-инструменты для решения реальных задач.
+            </p>
+        </div>
+
+        <div class="platform__grid">
+            <div class="platform-card js-reveal">
+                <div class="platform-card__icon">
+                    <i data-lucide="cpu"></i>
+                </div>
+                <h3 class="platform-card__title">AI-инструменты</h3>
+                <p class="platform-card__text">
+                    Используйте решения, которые меняют правила игры. Мы внедрили искусственный интеллект в каждый этап
+                    обучения для ускорения прогресса.
+                </p>
+                <div class="platform-card__badge">Innovation</div>
+            </div>
+
+            <div class="platform-card js-reveal">
+                <div class="platform-card__icon">
+                    <i data-lucide="layers"></i>
+                </div>
+                <h3 class="platform-card__title">Пошаговый путь</h3>
+                <p class="platform-card__text">
+                    Легко разобраться даже без опыта. Наш путь понятен каждому: от базовых алгоритмов до развертывания
+                    сложных систем за 2 минуты.
+                </p>
+                <div class="platform-card__badge">Easy Start</div>
+            </div>
+
+            <div class="platform-card js-reveal">
+                <div class="platform-card__icon">
+                    <i data-lucide="globe"></i>
+                </div>
+                <h3 class="platform-card__title">Стандарт Европы</h3>
+                <p class="platform-card__text">
+                    Платформа уже доступна в Европе. Мы адаптировали методологии, доказавшие эффективность в лучших
+                    IT-хабах Франции и ЕС.
+                </p>
+                <div class="platform-card__badge">EU Access</div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="benefits" id="benefits">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title js-reveal">Постройте карьеру, которая работает на вас</h2>
+            <p class="section-subtitle js-reveal">Оцените перспективы проекта и откройте новые возможности вместе с
+                экспертами индустрии.</p>
+        </div>
+
+        <div class="benefits-grid">
+            <div class="benefit-card benefit-card--large js-reveal">
+                <div class="benefit-card__content">
+                    <span class="benefit-card__tag">Career Growth</span>
+                    <h3 class="benefit-card__title">Расширьте горизонты проекта</h3>
+                    <p class="benefit-card__text">Наша методология ориентирована на реальный сектор экономики ЕС. Вы
+                        получаете не просто знания, а стратегию роста на базе инноваций.</p>
+                    <a href="#contact" class="benefit-card__link">Получить больше информации <i
+                            data-lucide="chevron-right"></i></a>
+                </div>
+                <div class="benefit-card__bg-icon"><i data-lucide="trending-up"></i></div>
+            </div>
+
+            <div class="benefit-card benefit-card--medium js-reveal">
+                <div class="benefit-card__icon"><i data-lucide="pie-chart"></i></div>
+                <h3 class="benefit-card__title">Программа пассивного дохода</h3>
+                <p class="benefit-card__text">Технология для пассивного дохода, интегрированная в процесс обучения.
+                    Оцените выгоду с первых недель.</p>
+            </div>
+
+            <div class="benefit-card benefit-card--medium js-reveal">
+                <div class="benefit-card__icon"><i data-lucide="shield-check"></i></div>
+                <h3 class="benefit-card__title">Проверенный партнер</h3>
+                <p class="benefit-card__text">Экспертная поддержка на всех этапах. Мы сопровождаем вас от регистрации до
+                    первого успешно закрытого контракта.</p>
+            </div>
+
+            <div class="benefit-card benefit-card--small js-reveal">
+                <div class="benefit-card__icon"><i data-lucide="Zap"></i></div>
+                <h4 class="benefit-card__title">Практики сегодня</h4>
+                <p class="benefit-card__text">Применимо уже сегодня. Никакой лишней теории.</p>
+            </div>
+
+            <div class="benefit-card benefit-card--small js-reveal">
+                <div class="benefit-card__icon"><i data-lucide="clock"></i></div>
+                <h4 class="benefit-card__title">Быстрый старт</h4>
+                <p class="benefit-card__text">Подключение занимает всего 2 минуты.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="innovations" id="innovations">
+    <div class="container innovations__container">
+
+        <div class="innovations__left">
+            <div class="innovations__sticky">
+                <span class="hero__label">AI-Инструменты</span>
+                <h2 class="section-title">Технологии, которые работают на вас</h2>
+                <p class="section-subtitle">
+                    Мы создали решения, которые меняют правила игры. Наша платформа — это не просто курсы, а передовая
+                    цифровая инфраструктура для вашего будущего.
+                </p>
+                <div class="innovations__status">
+                    <span class="status-dot"></span>
+                    Доступ к платформе открыт в ЕС
+                </div>
+            </div>
+        </div>
+
+        <div class="innovations__right">
+
+            <div class="innovation-item js-innovation-item">
+                <div class="innovation-item__num">01</div>
+                <h3 class="innovation-item__title">Нейронные маршруты обучения</h3>
+                <p class="innovation-item__text">
+                    Инновационная технология адаптивного обучения. Система анализирует ваши сильные стороны и формирует
+                    персональный путь в реальном времени.
+                </p>
+                <div class="innovation-item__image">
+                    <img src="img/placeholder.png" alt="AI Path">
+                </div>
+            </div>
+
+            <div class="innovation-item js-innovation-item">
+                <div class="innovation-item__num">02</div>
+                <h3 class="innovation-item__title">Облачная экосистема PHI</h3>
+                <p class="innovation-item__text">
+                    Разверните свой первый проект в Европе за 2 минуты. Мы предоставляем готовую инфраструктуру для
+                    практики на реальных серверах.
+                </p>
+                <div class="innovation-item__image">
+                    <img src="img/placeholder.png" alt="Cloud Infrastructure">
+                </div>
+            </div>
+
+            <div class="innovation-item js-innovation-item">
+                <div class="innovation-item__num">03</div>
+                <h3 class="innovation-item__title">Автоматизированный код-ревью</h3>
+                <p class="innovation-item__text">
+                    AI-инструменты для реальных задач. Получайте мгновенную обратную связь по вашему коду на базе лучших
+                    практик индустрии.
+                </p>
+                <div class="innovation-item__image">
+                    <img src="img/placeholder.png" alt="AI Review">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<section class="blog" id="blog">
+    <div class="container">
+        <div class="blog__top">
+            <div class="blog__header">
+                <h2 class="section-title js-reveal">Стратегия роста на базе инноваций</h2>
+                <p class="section-subtitle js-reveal">Практики, применимые уже сегодня. Получите доступ к эксклюзивным
+                    материалам нашей экосистемы.</p>
+            </div>
+            <div class="blog__nav js-reveal">
+                <button class="blog__btn blog__btn--prev"><i data-lucide="chevron-left"></i></button>
+                <button class="blog__btn blog__btn--next"><i data-lucide="chevron-right"></i></button>
+            </div>
+        </div>
+
+        <div class="swiper blog-slider js-reveal">
+            <div class="swiper-wrapper">
+
+                <div class="swiper-slide">
+                    <article class="blog-card">
+                        <div class="blog-card__image">
+                            <img src="img/placeholder.png" alt="Innovation">
+                            <span class="blog-card__tag">Инновации</span>
+                        </div>
+                        <div class="blog-card__content">
+                            <time class="blog-card__date">12 Янв, 2026</time>
+                            <h3 class="blog-card__title">Как AI-инструменты меняют подход к разработке</h3>
+                            <p class="blog-card__text">Разбираем решения, которые меняют правила игры в индустрии
+                                разработки ПО в этом году.</p>
+                            <a href="#" class="blog-card__link">Читать далее</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="swiper-slide">
+                    <article class="blog-card">
+                        <div class="blog-card__image">
+                            <img src="img/placeholder.png" alt="Career">
+                            <span class="blog-card__tag">Карьера</span>
+                        </div>
+                        <div class="blog-card__content">
+                            <time class="blog-card__date">10 Янв, 2026</time>
+                            <h3 class="blog-card__title">Постройте карьеру, которая работает на вас</h3>
+                            <p class="blog-card__text">Пошаговый путь, понятный каждому: от джуниора до эксперта в
+                                европейских IT-компаниях.</p>
+                            <a href="#" class="blog-card__link">Читать далее</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="swiper-slide">
+                    <article class="blog-card">
+                        <div class="blog-card__image">
+                            <img src="img/placeholder.png" alt="Passive Income">
+                            <span class="blog-card__tag">Доход</span>
+                        </div>
+                        <div class="blog-card__content">
+                            <time class="blog-card__date">08 Янв, 2026</time>
+                            <h3 class="blog-card__title">Технология для пассивного дохода в IT</h3>
+                            <p class="blog-card__text">Оцените перспективы проекта и узнайте, как монетизировать свои
+                                навыки на базе инноваций.</p>
+                            <a href="#" class="blog-card__link">Читать далее</a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="swiper-slide">
+                    <article class="blog-card">
+                        <div class="blog-card__image">
+                            <img src="img/placeholder.png" alt="Education">
+                            <span class="blog-card__tag">Обучение</span>
+                        </div>
+                        <div class="blog-card__content">
+                            <time class="blog-card__date">05 Янв, 2026</time>
+                            <h3 class="blog-card__title">Быстрый и лёгкий старт в веб-технологиях</h3>
+                            <p class="blog-card__text">Удобная адаптация без сложностей. Почему наша платформа — это
+                                выбор номер один в Европе.</p>
+                            <a href="#" class="blog-card__link">Читать далее</a>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+</section>
     </main>
 
     <footer class="footer">
-  <div class="container">
-    <p class="footer-desc">
-      Made with ✨ by
-      <a
-        class="footer-link"
-        href="https://goit.global/ua/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GoIT team
+  <div class="container footer__grid">
+    <div class="footer__col footer__col--info">
+      <a href="/" class="logo footer__logo">
+        <span class="logo__dot"></span>
+        PHI SHIFT
       </a>
-    </p>
+      <p class="footer__description">
+        Передовая цифровая инфраструктура для вашего профессионального роста в IT. Платформа года для тех, кто меняет
+        правила игры.
+      </p>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Меню</h4>
+      <ul class="footer__links">
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#platform">Обучение</a></li>
+        <li><a href="#benefits">Преимущества</a></li>
+        <li><a href="#innovations">Инновации</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Юридическая информация</h4>
+      <ul class="footer__links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="cookies.html">Cookie Policy</a></li>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="return.html">Return Policy</a></li>
+        <li><a href="disclaimer.html">Disclaimer</a></li>
+        <li><a href="personal-data-policy.html">Data Policy</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4 class="footer__title">Контакты</h4>
+      <ul class="footer__contact-list">
+        <li>
+          <i data-lucide="map-pin"></i>
+          <span>24 Rue de Rivoli, 75004 Paris, France</span>
+        </li>
+        <li>
+          <i data-lucide="phone"></i>
+          <a href="tel:+33142685300">+33 1 42 68 53 00</a>
+        </li>
+        <li>
+          <i data-lucide="mail"></i>
+          <a href="mailto:team@phi-shift.blog">team@phi-shift.blog</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <p>&copy; 2026 PHI SHIFT. Все права защищены. Предложение активно только в странах ЕС.</p>
   </div>
 </footer>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/split-type"></script>
   </body>
 </html>
