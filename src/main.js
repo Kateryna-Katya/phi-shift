@@ -1,264 +1,151 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Инициализация иконок и плагинов
     lucide.createIcons();
     gsap.registerPlugin(ScrollTrigger);
 
-    // --- HEADER SCROLL ---
+    // --- ГЛОБАЛЬНЫЕ КОНСТАНТЫ ---
     const header = document.getElementById('header');
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    const navLinks = document.querySelectorAll('.nav__link');
+
+    // --- МОБИЛЬНОЕ МЕНЮ ---
+    const toggleMenu = () => {
+        burger.classList.toggle('burger--active');
+        nav.classList.toggle('active');
+        document.body.classList.toggle('no-scroll'); // Чтобы не скроллился контент под меню
+    };
+
+    burger.addEventListener('click', toggleMenu);
+    navLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+    // --- СКРОЛЛ ХЕДЕРА ---
     window.addEventListener('scroll', () => {
         header.classList.toggle('header--scrolled', window.scrollY > 50);
     });
 
-    // --- HERO ANIMATION (GSAP + SplitType) ---
-    const initHeroAnimation = () => {
-        // Разбиваем текст на слова и буквы
-        const splitTitle = new SplitType('.hero__title', { types: 'words, chars' });
-        const splitSubtitle = new SplitType('.hero__subtitle', { types: 'words' });
-
-        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-        tl.fromTo('.hero__label-wrapper', 
-            { opacity: 0, y: -20 }, 
-            { opacity: 1, y: 0, duration: 0.8, delay: 0.3 }
-        )
-        .to('.hero__title', { opacity: 1, duration: 0.1 }, '-=0.5') // Делаем видимым перед анимацией букв
-        .from(splitTitle.chars, {
-            opacity: 0,
-            y: 50,
-            rotateX: -90,
-            stagger: 0.02,
-            duration: 1
-        }, '-=0.6')
-        .to('.hero__subtitle', { opacity: 1, duration: 0.1 }, '-=0.8')
-        .from(splitSubtitle.words, {
-            opacity: 0,
-            y: 20,
-            stagger: 0.05,
-            duration: 0.8
-        }, '-=0.8')
-        .to('.hero__actions', {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            clearProps: 'all' // Очищаем свойства после анимации для ховеров
-        }, '-=0.6');
-    };
-
-    initHeroAnimation();
-
-    // --- HERO INTERACTIVE CANVAS BACKGROUND ---
+    // --- HERO CANVAS (Интерактивный фон) ---
     const initHeroCanvas = () => {
         const canvas = document.getElementById('heroCanvas');
+        if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        let width, height;
-        let particles = [];
-        let mouse = { x: null, y: null, radius: 150 };
+        let width, height, particles = [];
+        const mouse = { x: null, y: null, radius: 150 };
 
-        // Настройка цветов из CSS переменных
-        const accentColorHex = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim();
-        const swampColorHex = getComputedStyle(document.documentElement).getPropertyValue('--color-swamp').trim();
-
-        // Конфигурация частиц
-        const config = {
-            particleCount: window.innerWidth < 768 ? 50 : 100, // Меньше частиц на мобилках
-            lineDistance: 120,
-            particleSpeed: 0.3,
-            mouseRepelForce: 2
-        };
-
-        function resize() {
+        const resize = () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;
-            initParticles();
-        }
+            particles = Array.from({ length: width < 768 ? 40 : 100 }, () => new Particle());
+        };
 
         class Particle {
-            constructor(x, y) {
-                this.x = x ? x : Math.random() * width;
-                this.y = y ? y : Math.random() * height;
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
                 this.size = Math.random() * 2 + 1;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.density = (Math.random() * 10) + 5;
-                this.color = Math.random() > 0.8 ? accentColorHex : swampColorHex;
-                this.speedX = Math.random() * config.particleSpeed - config.particleSpeed/2;
-                this.speedY = Math.random() * config.particleSpeed - config.particleSpeed/2;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
             }
-
             update() {
-                // Базовое движение
-                this.x += this.speedX;
-                this.y += this.speedY;
-
-                // Отталкивание от краев
-                if (this.x > width || this.x < 0) this.speedX = -this.speedX;
-                if (this.y > height || this.y < 0) this.speedY = -this.speedY;
-
-                // Взаимодействие с мышью
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.x > width || this.x < 0) this.speedX *= -1;
+                if (this.y > height || this.y < 0) this.speedY *= -1;
                 if (mouse.x) {
-                    let dx = mouse.x - this.x;
-                    let dy = mouse.y - this.y;
-                    let distance = Math.sqrt(dx * dx + dy * dy);
-                    if (distance < mouse.radius) {
-                        let forceDirectionX = dx / distance;
-                        let forceDirectionY = dy / distance;
-                        let force = (mouse.radius - distance) / mouse.radius;
-                        let directionX = forceDirectionX * force * this.density * config.mouseRepelForce;
-                        let directionY = forceDirectionY * force * this.density * config.mouseRepelForce;
-                        this.x -= directionX;
-                        this.y -= directionY;
-                    } else {
-                        // Возврат к базовой траектории, если мышь далеко
-                        if (this.x !== this.baseX) {
-                            let dx = this.x - this.baseX;
-                            this.x -= dx / 20;
-                        }
-                         if (this.y !== this.baseY) {
-                            let dy = this.y - this.baseY;
-                            this.y -= dy / 20;
-                        }
+                    let dx = mouse.x - this.x, dy = mouse.y - this.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        this.x -= dx / 20; this.y -= dy / 20;
                     }
                 }
             }
-
             draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.fill();
+                ctx.fillStyle = '#B8FF52'; ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
 
-        function initParticles() {
-            particles = [];
-            for (let i = 0; i < config.particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
-
-        function connect() {
-            for (let a = 0; a < particles.length; a++) {
-                for (let b = a; b < particles.length; b++) {
-                    let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) +
-                                   ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
-                    if (distance < (config.lineDistance * config.lineDistance)) {
-                        let opacityValue = 1 - (distance / (config.lineDistance * config.lineDistance));
-                        ctx.strokeStyle = `rgba(184, 255, 82, ${opacityValue * 0.2})`; // Лаймовые связи
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[a].x, particles[a].y);
-                        ctx.lineTo(particles[b].x, particles[b].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-        }
-
-        function animate() {
+        const animate = () => {
             ctx.clearRect(0, 0, width, height);
-            for (let i = 0; i < particles.length; i++) {
-                particles[i].update();
-                particles[i].draw();
-            }
-            connect();
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
-        }
+        };
 
         window.addEventListener('resize', resize);
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        resize();
-        animate();
+        window.addEventListener('mousemove', e => { mouse.x = e.x; mouse.y = e.y; });
+        resize(); animate();
     };
-
     initHeroCanvas();
-    // --- SCROLL REVEAL ANIMATION (GSAP) ---
-    const initScrollReveal = () => {
-        const reveals = document.querySelectorAll('.js-reveal');
-        
-        reveals.forEach((el) => {
+
+    // --- GSAP ANIMATIONS (Hero, Reveal, Innovations) ---
+    const initAnimations = () => {
+        // Hero
+        const splitTitle = new SplitType('.hero__title', { types: 'words, chars' });
+        const tl = gsap.timeline();
+        tl.from('.hero__label-wrapper', { opacity: 0, y: -20, duration: 1 })
+          .from(splitTitle.chars, { opacity: 0, y: 30, stagger: 0.02, duration: 0.8 }, "-=0.5")
+          .from('.hero__subtitle', { opacity: 0, y: 20, duration: 0.8 }, "-=0.5")
+          .from('.hero__actions', { opacity: 0, y: 20, duration: 0.8 }, "-=0.5");
+
+        // General Reveal
+        gsap.utils.toArray('.js-reveal').forEach(el => {
             gsap.to(el, {
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%", // Анимация начнется, когда верх элемента дойдет до 85% экрана
-                    toggleActions: "play none none none"
-                },
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power3.out"
+                scrollTrigger: { trigger: el, start: "top 85%" },
+                opacity: 1, y: 0, duration: 1, ease: "power3.out"
             });
         });
-    };
 
-    initScrollReveal();
-    // Добавь это условие или обнови существующую логику
-gsap.from('.benefits-grid .js-reveal', {
-    scrollTrigger: {
-        trigger: '.benefits-grid',
-        start: "top 80%",
-    },
-    opacity: 0,
-    y: 40,
-    stagger: 0.15, // Поочередное появление карточек
-    duration: 1,
-    ease: "power3.out"
-});
-    // --- INNOVATIONS ANIMATION ---
-    const initInnovations = () => {
-        const items = document.querySelectorAll('.js-innovation-item');
-        
-        items.forEach((item) => {
+        // Innovations Scrub
+        gsap.utils.toArray('.js-innovation-item').forEach(item => {
             gsap.from(item, {
-                scrollTrigger: {
-                    trigger: item,
-                    start: "top 90%",
-                    end: "top 20%",
-                    scrub: 1, // Привязка к движению колесика
-                },
-                opacity: 0,
-                x: 50,
-                duration: 1
+                scrollTrigger: { trigger: item, start: "top 90%", scrub: 1 },
+                opacity: 0, x: 50
             });
         });
     };
+    initAnimations();
 
-    initInnovations();
-    // --- BLOG SLIDER (Swiper) ---
-    const initBlogSlider = () => {
-        const swiper = new Swiper('.blog-slider', {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true,
-            grabCursor: true,
-            navigation: {
-                nextEl: '.blog__btn--next',
-                prevEl: '.blog__btn--prev',
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            breakpoints: {
-                640: {
-                    slidesPerView: 2,
-                    spaceBetween: 30,
-                },
-                1024: {
-                    slidesPerView: 3,
-                    spaceBetween: 30,
-                },
-            }
+    // --- SWIPER SLIDER ---
+    if (document.querySelector('.blog-slider')) {
+        new Swiper('.blog-slider', {
+            slidesPerView: 1, spaceBetween: 30, loop: true,
+            navigation: { nextEl: '.blog__btn--next', prevEl: '.blog__btn--prev' },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            breakpoints: { 768: { slidesPerView: 2 }, 1024: { slidesPerView: 3 } }
         });
-    };
+    }
 
-    initBlogSlider();
+    // --- CONTACT FORM & CAPTCHA ---
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        let n1 = Math.floor(Math.random() * 10), n2 = Math.floor(Math.random() * 10);
+        const captchaLabel = document.getElementById('captchaQuestion');
+        if (captchaLabel) captchaLabel.textContent = `${n1} + ${n2}`;
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const ans = document.getElementById('captchaInput').value;
+            if (parseInt(ans) !== (n1 + n2)) {
+                alert('Капча введена неверно!'); return;
+            }
+            document.getElementById('contactSuccess').classList.add('active');
+        });
+
+        document.getElementById('closeSuccess')?.addEventListener('click', () => {
+            document.getElementById('contactSuccess').classList.remove('active');
+            contactForm.reset();
+        });
+    }
+
+    // --- COOKIE POPUP ---
+    const cookiePopup = document.getElementById('cookiePopup');
+    const acceptBtn = document.getElementById('acceptCookies');
+
+    if (!localStorage.getItem('cookiesAccepted')) {
+        setTimeout(() => cookiePopup.classList.add('active'), 2000);
+    }
+
+    acceptBtn.addEventListener('click', () => {
+        localStorage.setItem('cookiesAccepted', 'true');
+        cookiePopup.classList.remove('active');
+    });
 });
