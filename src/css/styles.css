@@ -358,7 +358,7 @@ a {
     margin-bottom: 30px;
     letter-spacing: -0.02em;
     /* Для анимации SplitType */
-    opacity: 0;
+   
 }
 
 .hero__subtitle {
@@ -367,7 +367,7 @@ a {
     max-width: 600px;
     margin-bottom: 40px;
     /* Для анимации SplitType */
-    opacity: 0;
+
 }
 
 .hero__actions {
@@ -375,7 +375,7 @@ a {
     gap: 20px;
     flex-wrap: wrap;
     /* Для GSAP анимации */
-    opacity: 0;
+
     transform: translateY(20px);
 }
 
@@ -1230,4 +1230,22 @@ a {
     padding-left: 20px;
     list-style: disc;
     color: var(--color-text-dim);
+}
+/* Предотвращаем разрыв слов при анимации */
+.word {
+    white-space: nowrap;
+    /* Запрещаем перенос внутри слова */
+    display: inline-block;
+    /* Позволяем словам корректно участвовать в потоке */
+}
+
+.char {
+    display: inline-block;
+    /* Символы тоже должны быть блочными для корректной анимации */
+}
+
+/* Опционально: если заголовок все равно слишком длинный для мобилок */
+.hero__title {
+    word-break: keep-all;
+    overflow-wrap: normal;
 }
